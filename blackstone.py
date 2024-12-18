@@ -2,6 +2,7 @@ import requests, time, json, re, os
 from tqdm import tqdm
 from tabulate import tabulate
 import sqlite3
+from markdownify import markdownify as md
 
 db_file = 'blackstone.db'
 base_url = 'https://blackstone.wd1.myworkdayjobs.com'
@@ -27,9 +28,9 @@ def get_job_urls():
 
 def setup_db():
     if os.path.exists(db_file):
-        # print('Database already exists. Deleting...'); os.remove(db_file)
         print('Database already exists. Exiting...'); exit()
-    conn = sqlite3.connect('blackstone.db')
+        # print('Database already exists. Deleting...'); os.remove(db_file)
+    conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE jobs (
@@ -55,7 +56,7 @@ def main():
         cursor.execute('''
             INSERT INTO jobs (title, description, location, human_url, api_url, posted_date, start_date, time_type)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)''', 
-            (job_info['title'], job_info['jobDescription'], job_info['location'], job_info['externalUrl'],
+            (job_info['title'], md(job_info['jobDescription']), job_info['location'], job_info['externalUrl'],
             base_url + api_endpoint, job_info['postedOn'], job_info['startDate'], job_info['timeType'])
         )
     conn.commit()
