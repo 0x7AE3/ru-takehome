@@ -23,4 +23,4 @@ Finally, run
 ```bash
 python evaluate.py
 ```
-to <<<TODO>>>
+to **TODO**
