@@ -1,5 +1,5 @@
 ## Usage
-First, install the required packages
+First, install the required packages:
 ```bash
 python -m venv venv
 source venv/bin/activate
