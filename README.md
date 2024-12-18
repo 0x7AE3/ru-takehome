@@ -1,6 +1,6 @@
 ## Usage
+First, install the required packages
 ```bash
-# First, install the required packages
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
