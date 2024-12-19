@@ -1,6 +1,5 @@
-import requests, time, json, re, os
+import requests, time, json, re, os, sys
 from tqdm import tqdm
-from tabulate import tabulate
 import sqlite3
 from markdownify import markdownify as md
 
@@ -18,9 +17,6 @@ city_conversion = {
 }
 
 def setup_db():
-    if os.path.exists(db_file):
-        print('Database already exists. Exiting...'); exit()
-        # print('Database already exists. Deleting...'); os.remove(db_file)
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
     cursor.execute('''
@@ -38,18 +34,26 @@ def setup_db():
     ''')
     return conn, cursor
 
+def arg_check(): 
+    if '-f' in sys.argv:
+        os.remove(db_file)
+    else:
+        if os.path.exists(db_file):
+            print('Database already exists. Exiting...'); exit()
+
 def main():
+    arg_check()
     conn, cursor = setup_db()
     jobs = requests.get(all_jobs_url).json()
-    # jobs = requests.get(student_and_newgrad_url).json()
     for job in jobs:
         cursor.execute('''
             INSERT INTO jobs (position, category, availability, city, url, overview, team, min_salary, max_salary)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''', 
             (job['position'], job['category'], job['availability'], city_conversion[job['city']],
-            job_query_url + job['position'], md(job['overview']), job['team'], job['min_salary'], job['max_salary'])
+            job_query_url + str(job['id']), md(job['overview']), job['team'], job['min_salary'], job['max_salary'])
         )
     conn.commit()
     conn.close()
+    print(f'Wrote {len(jobs)} jobs to {db_file}')
 
 main()

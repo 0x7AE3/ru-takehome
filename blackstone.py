@@ -1,6 +1,5 @@
-import requests, time, json, re, os
+import requests, time, json, re, os, sys
 from tqdm import tqdm
-from tabulate import tabulate
 import sqlite3
 from markdownify import markdownify as md
 
@@ -27,9 +26,6 @@ def get_job_urls():
     # return list(map(lambda url: re.search(r"^/job/[^/]+(/.*)$", url).group(1), job_urls))
 
 def setup_db():
-    if os.path.exists(db_file):
-        print('Database already exists. Exiting...'); exit()
-        # print('Database already exists. Deleting...'); os.remove(db_file)
     conn = sqlite3.connect(db_file)
     cursor = conn.cursor()
     cursor.execute('''
@@ -46,7 +42,15 @@ def setup_db():
     ''')
     return conn, cursor
 
+def arg_check():
+    if '-f' in sys.argv:
+        os.remove(db_file)
+    else:
+        if os.path.exists(db_file):
+            print('Database already exists. Exiting...'); exit()
+
 def main():
+    arg_check()
     conn, cursor = setup_db()
     job_urls = get_job_urls()
     for job_url in tqdm(job_urls):
@@ -61,5 +65,6 @@ def main():
         )
     conn.commit()
     conn.close()
+    print(f'Wrote {len(job_urls)} jobs to {db_file}')
 
 main()
