@@ -35,3 +35,5 @@ it will take longer than subsequent runs due to the embedding computation.
   and visiting http://localhost:8001
 - The `search_blackstone.py` and `search_janestreet.py` scripts are separate because the schema of the two databases is different. Ideally there would be another pre-processing step to unify the schemas, especially if you are scraping more than two websites.
 - The natural language querying of each database is thanks to [SentenceTransformers](SentenceTransformers). Using [OpenAI Embeddings](https://platform.openai.com/docs/api-reference/embeddings) would most likely yield more accurate results, but the present way has the advantage of being self-hosted (no external API calls --> no fees).
+## Demo
+https://www.youtube.com/watch?v=8wlLqInwOoU
