@@ -16,14 +16,16 @@ Use the `-f` flag in either command to force overwrite an existing database.
 Once you have created the databases per the instructions above, you can search them with natural language. 
 For example:
 ```bash
-python search_blackstone.py "private equity london"
+python search_blackstone.py "2025 private equity new grad"
 ```
 or
 ```bash
-python search_janestreet.py "trading nyc new grad"
+python search_janestreet.py "trading full time"
 ```
 Each script will compute embeddings if they don't already exist in the database. 
 Use the `-f` flag in either command to force recompute the embeddings.
+Note then that the first time you run a search script, 
+it will take longer than subsequent runs due to the embedding computation.
 ## Design Choices
 - SQLite was chosen as the database engine because it is lightweight and easy to use. 
   For example, you can view the contents of the databases by running

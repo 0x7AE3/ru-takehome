@@ -142,6 +142,7 @@ if __name__ == "__main__":
         print(f"\n{i}. {result['position']} ({result['city']})")
         print(f"   Team: {result['team']}")
         print(f"   Category: {result['category']}")
+        print(f"   Availablity: {result['availability']}")
         print(f"   Similarity Score: {result['similarity']:.3f}")
         print(f"   URL: {result['url']}")
     print("\n" + "="*50)
