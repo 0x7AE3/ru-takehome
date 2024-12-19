@@ -16,11 +16,11 @@ Use the `-f` flag in either command to force overwrite an existing database.
 Once you have created the databases per the instructions above, you can search them with natural language. 
 For example:
 ```bash
-python search_janestreet.py "trading nyc new grad"
+python search_blackstone.py "private equity london"
 ```
 or
 ```bash
-python search_blackstone.py "private equity london"
+python search_janestreet.py "trading nyc new grad"
 ```
 Each script will compute embeddings if they don't already exist in the database. 
 Use the `-f` flag in either command to force recompute the embeddings.
@@ -31,5 +31,5 @@ Use the `-f` flag in either command to force recompute the embeddings.
   datasette serve blackstone.db janestreet.db
   ```
   and visiting http://localhost:8001
-- The `search_janestreet.py` and `search_blackstone.py` scripts are separate because the schema of the two databases is different. Ideally there would be another pre-processing step to unify the schemas, especially if you are scraping more than two websites.
+- The `search_blackstone.py` and `search_janestreet.py` scripts are separate because the schema of the two databases is different. Ideally there would be another pre-processing step to unify the schemas, especially if you are scraping more than two websites.
 - The natural language querying of each database is thanks to [SentenceTransformers](SentenceTransformers). Using [OpenAI Embeddings](https://platform.openai.com/docs/api-reference/embeddings) would most likely yield more accurate results, but the present way has the advantage of being self-hosted (no external API calls --> no fees).
